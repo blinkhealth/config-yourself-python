@@ -1,0 +1,49 @@
+dl dt {
+    background-color: #e6e6e6;
+    /* border-radius: 5px; */
+    margin: 5px 3px;
+    padding: 5px 10px;
+    /* margin-top: 5px; */
+    /* padding: 0.5em 1em 0.7em; */
+}
+
+dl dd {
+    margin: 5px 3px;
+    padding: 5px 10px;
+}
+
+dl dt .descname {
+    color: deeppink;
+}
+
+dl dt .sig-paren {
+    color: deeppink;
+}
+
+a code {
+  color: deeppink;
+}
+
+div.code span.nn {
+  color: deeppink
+}
+
+div.code span.nc {
+  color: deeppink
+}
+
+div.code span.nf {
+  color: deeppink
+}
+
+dl dt em {
+    font-style: normal;
+    font-family: "Menlo", monospace;
+    font-size: 0.8em;
+}
+
+dl > dd > p {
+    /* color: gray; */
+    /* line-height: 2em; */
+    /* border-radius: 5px; */
+}
