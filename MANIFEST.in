@@ -1,5 +1,6 @@
 include *.md
 include LICENSE
+include NOTICE
 
 exclude circle.yml
 exclude Makefile
