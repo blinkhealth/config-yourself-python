@@ -26,7 +26,7 @@ jobs:
             pipenv run check-manifest --ignore tox.ini,.circleci*,tests*
             pipenv run lint --check
 
-# tests
+  # tests
   test_2_7:
     <<: *defaults
     docker:
@@ -42,6 +42,7 @@ jobs:
             sed '/^black/d' Pipfile > Pipfile27
             mv Pipfile27 Pipfile
             pipenv install --dev --deploy --skip-lock
+            pipenv install pytest-cov
       - save_cache:
           paths:
             - .venv
@@ -67,6 +68,7 @@ jobs:
           command: |
             pip install -U pipenv
             pipenv install --dev --deploy --skip-lock
+            pipenv install pytest-cov
       - save_cache:
           paths:
             - .venv
@@ -125,10 +127,9 @@ jobs:
       - store_artifacts:
           path: /app/dist/
 
-
 only_tag: &only_tag
   filters:
-    branches: {ignore: [/.*/]}
+    branches: { ignore: [/.*/] }
     tags:
       only:
         - /[0-9]+(\.[0-9]+)*/
