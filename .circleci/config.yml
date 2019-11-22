@@ -145,6 +145,3 @@ workflows:
     jobs:
       - deploy:
           <<: *only_tag
-      - docs:
-          <<: *only_tag
-          requires: [deploy]
