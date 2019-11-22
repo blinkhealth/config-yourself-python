@@ -125,7 +125,7 @@ jobs:
       - run:
           name: Install python dependencies
           command: |
-            pip install -U pipenv
+            pip install -U pipenv twine
             pipenv install --dev --deploy --skip-lock
       - deploy:
           command: |
