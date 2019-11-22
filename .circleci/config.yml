@@ -120,9 +120,16 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - deploy:
+      - restore_cache:
+          key: config_yourself-20190422-python37-deps-{{ checksum "Pipfile.lock" }}-{{ checksum "setup.py" }}
+      - run:
+          name: Install python dependencies
           command: |
             pip install -U pipenv
+            pipenv install --dev --deploy --skip-lock
+      - deploy:
+          command: |
+            echo "[pypi]\n  username = __token__\n  password = ${PYPI_TOKEN}" >> ~/.pypirc
             pipenv run make upload-artifacts
       - store_artifacts:
           path: /app/dist/
