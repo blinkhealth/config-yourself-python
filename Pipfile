@@ -10,7 +10,6 @@ allow_prereleases = true
 [dev-packages]
 black = "*"
 moto = ">=1.3.8,<2.0.0"
-# I have no clue why moto/boto doesn't just require this themselves with pipenv
 mock = "<3.0.0,>=2.0.0"
 sshpubkeys = "*"
 
