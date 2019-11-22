@@ -127,12 +127,6 @@ jobs:
       - store_artifacts:
           path: /app/dist/
 
-only_tag: &only_tag
-  filters:
-    branches: { ignore: [/.*/] }
-    tags:
-      only:
-        - /[0-9]+(\.[0-9]+)*/
 workflows:
   version: 2
   test:
@@ -144,4 +138,8 @@ workflows:
   deploy:
     jobs:
       - deploy:
-          <<: *only_tag
+          filters:
+            branches: { ignore: [/.*/] }
+            tags:
+              only:
+                - /^v[0-9]+.[0-9]+.[0-9]+$/
