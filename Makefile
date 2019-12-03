@@ -6,7 +6,8 @@ build:
 	python setup.py bdist_wheel
 
 upload-artifacts: build
-	python setup.py sdist bdist_wheel upload
+	python setup.py sdist bdist_wheel
+	twine upload dist/*
 
 install-packages:
 	pipenv install

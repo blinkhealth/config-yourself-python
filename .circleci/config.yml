@@ -125,11 +125,15 @@ jobs:
       - run:
           name: Install python dependencies
           command: |
-            pip install -U pipenv
+            pip install -U pipenv twine
             pipenv install --dev --deploy --skip-lock
       - deploy:
           command: |
-            echo "[pypi]\n  username = __token__\n  password = ${PYPI_TOKEN}" >> ~/.pypirc
+            echo "[distutils]"  > ~/.pypirc
+            echo "index-servers = pypi" >> ~/.pypirc
+            echo "[pypi]" >> ~/.pypirc
+            echo "username = __token__" >> ~/.pypirc
+            echo "password = ${PYPI_TOKEN}" >> ~/.pypirc
             pipenv run make upload-artifacts
       - store_artifacts:
           path: /app/dist/
