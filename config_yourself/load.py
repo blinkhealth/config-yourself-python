@@ -51,7 +51,7 @@ def env(prefix="CONFIG"):
     return data
 
 
-def file(path):
+def file(pathname):
     """returns the dict representation of yaml file at `path`
 
     :param str path: The path of the file to parse as YAML.
@@ -59,11 +59,11 @@ def file(path):
     :return: A dictionary of loaded values from the file
     :rtype: dict[str,Any]
     """
-    if not path.exists(path):
-        raise InvalidConfig("File not found at '{}'".format(path))
+    if not path.exists(pathname):
+        raise InvalidConfig("File not found at '{}'".format(pathname))
 
-    if not path.isfile(path):
-        raise InvalidConfig("Path at '{}' is not a file".format(path))
+    if not path.isfile(pathname):
+        raise InvalidConfig("Path at '{}' is not a file".format(pathname))
 
-    with open(path, "r") as config_file:
+    with open(pathname, "r") as config_file:
         return safe_load(config_file.read())
