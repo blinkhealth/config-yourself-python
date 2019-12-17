@@ -122,5 +122,6 @@ class TestConfig(object):
                 {"crypto": {"provider": "fake-provider", "key": "adsf"}}
             )
 
+
 class TestAppConfig(object):
     pass
