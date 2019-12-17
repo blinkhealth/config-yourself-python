@@ -130,10 +130,10 @@ def AppConfig(config_file=None, before=None, after=None, config_folder="./config
     * a ``"{config_folder}/personal.yml"`` file, if it exists
 
 
-    All parameters are optional, and allow tweaking of the locations and extensions used for config files.
+    All parameters are optional, and allow tweaking of the locations and extensions used for config files. File extensions are not required for the ``before`` and ``after`` parameters, as it will be derived from ``config_file``, which does require
 
-    :param Optional[str] config_file: the path to the main config file to load, usually. (default: ``os.environ.get("CONFIG_FILE", "./config/local.yml")``)
-    :param Optional[list[str]] before: File names to load before ``config_file`` (default: `['default']`)
+    :param Optional[str] config_file: the path to the main config file to load, usually in the form of ``./config/your-environment-name.yml``. (default: ``os.environ.get("CONFIG_FILE", "./config/local.yml")``)
+    :param Optional[list[str]] before: File names to load before ``config_file`` without (default: `['default']`)
     :param Optional[list[str]] after: File names to apply after ``config_file`` if they exist (default: `['personal']`)
     :param Optional[str] config_folder: Base folder path to look for files in, (default: `./config`)
 
@@ -142,6 +142,11 @@ def AppConfig(config_file=None, before=None, after=None, config_folder="./config
     """
     if config_file is None:
         config_file = environ.get("CONFIG_FILE", path.join(config_folder, "local.yml"))
+        if not path.isfile(config_file):
+            # Help users debug missing/mistyped CONFIG_FILEs
+            raise exceptions.InvalidConfig(
+                "CONFIG_FILE='{}' is not a file".format(config_file)
+            )
 
     if before is None:
         before = ["defaults"]
@@ -156,9 +161,11 @@ def AppConfig(config_file=None, before=None, after=None, config_folder="./config
     if config_folder is None:
         config_folder = path.dirname(config_file)
     _main_ext = path.splitext(config_file)[1]
-    name_to_path = lambda name: path.join(
-        config_folder, "{}.{}".format(name, _main_ext)
-    )
+
+    def name_to_path(name):
+        if not name.endswith(".yml") and not name.endswith(".yaml"):
+            name = "{}.{}".format(name, _main_ext)
+        path.join(config_folder, name)
 
     # Add the resolved before files
     chain = [name_to_path(file_name) for file_name in before]

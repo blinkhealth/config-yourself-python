@@ -11,9 +11,9 @@ class TestLoaders(object):
     @pytest.mark.parametrize(
         ["env", "result"],
         [
-            [{"BLINKCONFIG.string": "value"}, {"string": "value"}],
-            [{"BLINKCONFIG.boolean": "true"}, {"boolean": True}],
-            [{"BLINKCONFIG.nested.boolean": "true"}, {"nested": {"boolean": True}}],
+            [{"CONFIG.string": "value"}, {"string": "value"}],
+            [{"CONFIG.boolean": "true"}, {"boolean": True}],
+            [{"CONFIG.nested.boolean": "true"}, {"nested": {"boolean": True}}],
         ],
     )
     def test_env_loader(self, monkeypatch, env, result):

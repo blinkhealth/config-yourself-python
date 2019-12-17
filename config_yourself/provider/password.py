@@ -6,7 +6,7 @@
 
 #     https://www.apache.org/licenses/LICENSE-2.0
 
-from config_yourself.exceptions import InvalidConfig, BlinkConfigException
+from config_yourself.exceptions import InvalidConfig, ConfigException
 from config_yourself.provider.datakey import (
     DataKeyService,
     DataKeyDecryptError,
@@ -56,7 +56,7 @@ class Service(DataKeyService):
         DataKeyService.__init__(self, dataKey)
 
 
-class PasswordDecryptError(BlinkConfigException):
+class PasswordDecryptError(ConfigException):
     def __init__(self, key):
 
         msg = "Failed to decrypt with key <{}> and a supplied password".format(key)

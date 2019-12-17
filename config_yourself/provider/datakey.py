@@ -8,7 +8,7 @@
 
 from .base import CryptoService
 from builtins import bytes
-from config_yourself.exceptions import BlinkConfigException
+from config_yourself.exceptions import ConfigException
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from cryptography.exceptions import InvalidTag
@@ -62,5 +62,5 @@ def decrypt_key_with_password(key, password):
     return DataKeyService(derivedKey).decrypt(encryptedKey)
 
 
-class DataKeyDecryptError(BlinkConfigException):
+class DataKeyDecryptError(ConfigException):
     pass
