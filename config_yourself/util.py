@@ -73,33 +73,43 @@ def _default_config_chain(
         config_file = environ.get("CONFIG_FILE", path.join(config_folder, "local.yml"))
         if not path.isfile(config_file):
             # Help users debug missing/mistyped CONFIG_FILEs
-            raise InvalidConfig("CONFIG_FILE='{}' is not a file".format(config_file))
+            raise InvalidConfig(
+                message="CONFIG_FILE='{}' is not a file".format(config_file)
+            )
 
     if before is None:
         before = ["defaults"]
 
+    if not isinstance(before, list):
+        raise TypeError("before is not a list")
+
     if after is None:
         after = ["personal"]
 
-    # the chain of files to merge before decrypting
-    chain = []
+    if not isinstance(after, list):
+        raise TypeError("after is not a list")
+
     # extract some details about the main file
-    config_file = path.abspath(config_file)
+    full_path_config_file = path.abspath(config_file)
     if config_folder is None:
-        config_folder = path.dirname(config_file)
+        config_folder = path.dirname(full_path_config_file)
     _main_ext = path.splitext(config_file)[1]
 
     def name_to_path(name):
         if not name.endswith(".yml") and not name.endswith(".yaml"):
             name = "{}{}".format(name, _main_ext)
-        path.join(config_folder, name)
+        return path.join(config_folder, name)
 
+    # the chain of files to merge before decrypting
     # Add the resolved before files
     chain = [name_to_path(file_name) for file_name in before]
+    print(f"before {chain}")
     # Add the main config file
     chain.append(config_file)
 
     # Add after files if they exist
     for f in [name_to_path(file_name) for file_name in after]:
-        if path.exists(f):
+        if path.isfile(f):
             chain.append(f)
+
+    return chain
