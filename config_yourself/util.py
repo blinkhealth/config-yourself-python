@@ -49,7 +49,7 @@ def merge_dicts(src, dest, parent=[]):
     return src
 
 
-def _default_config_chain(
+def default_config_chain(
     config_file=None, before=None, after=None, config_folder="./config"
 ):
     """Generate a chain of config file path names

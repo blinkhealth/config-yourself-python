@@ -121,7 +121,3 @@ class TestConfig(object):
             get_config_yourself(
                 {"crypto": {"provider": "fake-provider", "key": "adsf"}}
             )
-
-
-class TestAppConfig(object):
-    pass

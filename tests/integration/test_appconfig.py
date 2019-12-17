@@ -1,7 +1,7 @@
 import pytest
 import mock
 import warnings
-from config_yourself.util import _default_config_chain
+from config_yourself.util import default_config_chain
 
 
 class TestAppConfig(object):
@@ -57,4 +57,4 @@ class TestAppConfig(object):
     def test_default_chain(self, mock_isfile, input_args, expected_chain):
         mock_isfile.side_effect = lambda filename: filename in expected_chain
 
-        assert _default_config_chain(**input_args) == expected_chain
+        assert default_config_chain(**input_args) == expected_chain

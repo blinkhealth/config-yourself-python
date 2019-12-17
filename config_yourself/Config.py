@@ -29,7 +29,7 @@ from six import iteritems
 import config_yourself.exceptions as exceptions
 import config_yourself.provider as provider
 import config_yourself.load as load
-from config_yourself.util import merge_dicts, _default_config_chain
+from config_yourself.util import merge_dicts, default_config_chain
 
 
 class Config(Mapping, Hashable):
@@ -140,6 +140,6 @@ def AppConfig(config_file=None, before=None, after=None, config_folder="./config
     :returns: A Config object
     :rtype: :py:class:`~config_yourself.Config`
     """
-    chain = _default_config_chain(config_file, before, after, config_folder)
+    chain = default_config_chain(config_file, before, after, config_folder)
 
     return Config(*[load.file(file_path) for file_path in chain])
