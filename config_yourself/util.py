@@ -103,7 +103,7 @@ def _default_config_chain(
     # the chain of files to merge before decrypting
     # Add the resolved before files
     chain = [name_to_path(file_name) for file_name in before]
-    print(f"before {chain}")
+
     # Add the main config file
     chain.append(config_file)
 
