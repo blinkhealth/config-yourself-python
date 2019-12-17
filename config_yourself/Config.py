@@ -143,4 +143,3 @@ def AppConfig(config_file=None, before=None, after=None, config_folder="./config
     chain = _default_config_chain(config_file, before, after, config_folder)
 
     return Config(*[load.file(file_path) for file_path in chain])
-
