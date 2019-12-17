@@ -29,7 +29,7 @@ from six import iteritems
 import config_yourself.exceptions as exceptions
 import config_yourself.provider as provider
 import config_yourself.load as load
-from config_yourself.util import merge_dicts
+from config_yourself.util import merge_dicts, _default_config_chain
 
 
 class Config(Mapping, Hashable):
@@ -130,7 +130,7 @@ def AppConfig(config_file=None, before=None, after=None, config_folder="./config
     * a ``"{config_folder}/personal.yml"`` file, if it exists
 
 
-    All parameters are optional, and allow tweaking of the locations and extensions used for config files. File extensions are not required for the ``before`` and ``after`` parameters, as it will be derived from ``config_file``, which does require
+    All parameters are optional, and allow tweaking of the locations and extensions used for config files. File extensions are not required for the ``before`` and ``after`` parameters, as it will be derived from ``config_file``, which does require an extension to be set.
 
     :param Optional[str] config_file: the path to the main config file to load, usually in the form of ``./config/your-environment-name.yml``. (default: ``os.environ.get("CONFIG_FILE", "./config/local.yml")``)
     :param Optional[list[str]] before: File names to load before ``config_file`` without (default: `['default']`)
@@ -140,41 +140,7 @@ def AppConfig(config_file=None, before=None, after=None, config_folder="./config
     :returns: A Config object
     :rtype: :py:class:`~config_yourself.Config`
     """
-    if config_file is None:
-        config_file = environ.get("CONFIG_FILE", path.join(config_folder, "local.yml"))
-        if not path.isfile(config_file):
-            # Help users debug missing/mistyped CONFIG_FILEs
-            raise exceptions.InvalidConfig(
-                "CONFIG_FILE='{}' is not a file".format(config_file)
-            )
-
-    if before is None:
-        before = ["defaults"]
-
-    if after is None:
-        after = ["personal"]
-
-    # the chain of files to merge before decrypting
-    chain = []
-    # extract some details about the main file
-    config_file = path.abspath(config_file)
-    if config_folder is None:
-        config_folder = path.dirname(config_file)
-    _main_ext = path.splitext(config_file)[1]
-
-    def name_to_path(name):
-        if not name.endswith(".yml") and not name.endswith(".yaml"):
-            name = "{}.{}".format(name, _main_ext)
-        path.join(config_folder, name)
-
-    # Add the resolved before files
-    chain = [name_to_path(file_name) for file_name in before]
-    # Add the main config file
-    chain.append(config_file)
-
-    # Add after files if they exist
-    for f in [name_to_path(file_name) for file_name in after]:
-        if path.exists(f):
-            chain.append(f)
+    chain = _default_config_chain(config_file, before, after, config_folder)
 
     return Config(*[load.file(file_path) for file_path in chain])
+
