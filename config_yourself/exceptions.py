@@ -1,10 +1,10 @@
-class BlinkConfigException(Exception):
-    """The base BlinkConfig Exception"""
+class ConfigException(Exception):
+    """The base Config Exception"""
 
     pass
 
 
-class DecryptError(BlinkConfigException):
+class DecryptError(ConfigException):
     """A value could not be decrypted"""
 
     def __init__(self, full_path, original=None):
@@ -12,7 +12,7 @@ class DecryptError(BlinkConfigException):
         super(DecryptError, self).__init__(msg)
 
 
-class InvalidConfig(BlinkConfigException):
+class InvalidConfig(ConfigException):
     """A supplied config file was not valid"""
 
     def __init__(

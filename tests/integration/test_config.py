@@ -3,7 +3,7 @@ import warnings
 from tests.conftest import get_config_yourself, add_kms_entries, encrypt_test_value
 
 
-class TestBlinkConfig(object):
+class TestConfig(object):
     @pytest.mark.parametrize(
         "input_config,expected_config",
         [

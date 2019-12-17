@@ -9,7 +9,7 @@
 import re
 import boto3
 import botocore
-from config_yourself.exceptions import InvalidConfig, BlinkConfigException
+from config_yourself.exceptions import InvalidConfig, ConfigException
 from .base import CryptoService
 
 
@@ -97,7 +97,7 @@ class Service(CryptoService):
                 raise
 
 
-class KMSDecryptError(BlinkConfigException):
+class KMSDecryptError(ConfigException):
     def __init__(self, region, key, creds=None, original=None):
         msg = ""
         if original:

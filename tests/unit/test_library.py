@@ -12,7 +12,7 @@ import config_yourself.exceptions as errors
 
 # noinspection PyClassHasNoInit
 @mock_kms
-class TestBlinkConfig(object):
+class TestConfig(object):
     @pytest.mark.parametrize(
         "input_config",
         [

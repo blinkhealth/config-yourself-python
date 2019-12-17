@@ -11,7 +11,7 @@ from pgpy.errors import PGPDecryptionError
 import warnings
 
 from config_yourself.provider.datakey import DataKeyService
-from config_yourself.exceptions import InvalidConfig, BlinkConfigException
+from config_yourself.exceptions import InvalidConfig, ConfigException
 
 
 class Service(DataKeyService):
@@ -59,7 +59,7 @@ class Service(DataKeyService):
         DataKeyService.__init__(self, dataKey)
 
 
-class BadGPGKeyPasswordError(BlinkConfigException):
+class BadGPGKeyPasswordError(ConfigException):
     def __init__(self, key):
 
         msg = "Invalid password for key <{}>".format(key)
