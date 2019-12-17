@@ -20,6 +20,9 @@ with open("./version.py", "w") as fh:
     )
     fh.write(message)
 
+with open("./README.md", "r") as fh:
+    long_description = fh.read()
+
 deps = {
     # required by datakey
     "aes": "cryptography >=2.8,<3.0",
@@ -38,6 +41,8 @@ else:
 setup(
     name="config-yourself",
     description="A python library to decrypt config-yourself files",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     use_scm_version=True,
     setup_requires=["setuptools_scm"],
     url="https://github.com/blinkhealth/config-yourself-python",
@@ -66,4 +71,5 @@ setup(
         "all": six + [deps.values()],
     },
     install_requires=["future >=0.16.0,<1.0.0", "PyYAML >=5.1.1"],
+    python_requires=">=2.7.0",
 )
