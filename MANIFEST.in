@@ -9,4 +9,5 @@ exclude Pipfile
 exclude Pipfile.lock
 exclude docs
 exclude .readthedocs.yaml
+exclude CODEOWNERS
 recursive-exclude docs *
