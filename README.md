@@ -1,7 +1,8 @@
 # config-yourself-python
 
-[![CircleCI](https://circleci.com/gh/blinkhealth/config-yourself-python.svg?style=svg)](https://circleci.com/gh/blinkhealth/config-yourself-python)
+[![Test status](https://github.com/blinkhealth/config-yourself-python/workflows/Tests/badge.svg)](https://github.com/blinkhealth/config-yourself-python/actions?query=branch%3Amaster+event%3Apush)
 [![Documentation Status](https://readthedocs.org/projects/config-yourself-python/badge/?version=latest)](https://config-yourself-python.readthedocs.io/en/latest/?badge=latest)
+[![Coverage Report](https://codecov.io/gh/blinkhealth/config-yourself-python/branch/master/graph/badge.svg)](https://codecov.io/gh/blinkhealth/config-yourself-python)
 
 `config-yourself` is a python 2.7+ package to help your application read [go-config-yourself files](https://github.com/blinkhealth/go-config-yourself#config-files).
 

@@ -1,0 +1,79 @@
+on: push
+name: Tests
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Checkout source
+        uses: actions/checkout@v1
+
+      - name: Cache python dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.OS }}-python-${{ matrix.python-version }}-${{ hashFiles('**/Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.OS }}-python-${{ env.cache-name }}-
+            ${{ runner.OS }}-python-
+
+      - name: Install dependencies
+        run: |
+          pip install -U pipenv
+          pipenv install --dev --pre --deploy --skip-lock
+
+      - name: Lint and validate
+        run: |
+          pipenv run check-manifest --ignore tox.ini,.circleci*,tests*
+          pipenv run lint --check
+
+  test:
+    runs-on: ubuntu-latest
+    # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstrategymatrix
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [2.7, 3.6, 3.7, 3.8]
+
+    steps:
+      - name: Install Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Checkout source
+        uses: actions/checkout@v1
+
+      - name: Cache python dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.local/share/virtualenvs
+          key: ${{ runner.OS }}-python-${{ matrix.python-version }}-${{ hashFiles('**/Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.OS }}-python-${{ env.cache-name }}-
+            ${{ runner.OS }}-python-
+
+      - name: Install dependencies
+        run: |
+          pip install -U pipenv
+          if [[ "${{ matrix.python-version }}" == "2.7" ]]; then
+            sed '/^black/d' Pipfile > Pipfile27
+            mv Pipfile27 Pipfile
+          fi
+          pipenv install --dev --pre --deploy --skip-lock
+
+      - name: Run tests
+        run: |
+          mkdir -p ./tests/reports
+          pipenv run test-coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./tests/reports/coverage.xml
+          flags: ${{ matrix.python-version }}

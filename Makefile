@@ -10,7 +10,7 @@ upload-artifacts: build
 	twine upload dist/*
 
 install-packages:
-	pipenv install
+	pipenv install --dev
 
 install-latest-local: build
 	pip install --upgrade --force-reinstall --no-deps $(shell ls -1t dist/*.whl | head -n1)

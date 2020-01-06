@@ -37,6 +37,6 @@ lint = "black config_yourself tests setup.py"
 test = "pytest -v tests/unit tests/integration"
 test-integration = "pytest -v tests/integration"
 test-unit = "pytest -v tests/unit"
-test-coverage = "pytest -v tests/unit tests/integration --cov=config_yourself --cov-report html:./tests/reports/coverage/"
+test-coverage = "pytest -v tests/unit tests/integration --cov=config_yourself --cov-report xml:./tests/reports/coverage.xml"
 # run test suite in all supported python versions
 tox = "tox --pre"
