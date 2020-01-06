@@ -1,0 +1,40 @@
+on:
+  push:
+    tags:
+      - v*.*.*
+name: Publish
+jobs:
+  publish:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Install Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - uses: actions/checkout@v1
+
+      - name: Cache python dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.OS }}-python-${{ matrix.python-version }}-${{ hashFiles('**/Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.OS }}-python-${{ env.cache-name }}-
+            ${{ runner.OS }}-python-
+
+      - name: Install dependencies
+        run: |
+          pip install -U pipenv
+          pipenv install --dev --pre --deploy --skip-lock
+
+      - name: Build and Publish
+        env:
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+        run: |
+          echo "[distutils]"  > ~/.pypirc
+          echo "index-servers = pypi" >> ~/.pypirc
+          echo "[pypi]" >> ~/.pypirc
+          echo "username = __token__" >> ~/.pypirc
+          echo "password = ${PYPI_TOKEN}" >> ~/.pypirc
+          pipenv run make upload-artifacts
