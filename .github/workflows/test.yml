@@ -76,3 +76,4 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./tests/reports/coverage.xml
+          flags: ${{ matrix.python-version }}
