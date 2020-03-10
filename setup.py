@@ -29,7 +29,7 @@ deps = {
     # gpg
     "gpg": "pgpy >=0.4.3,<1.0.0",
     # kms
-    "boto": "boto3 >=1.4.4,<2.0.0",
+    "boto": "boto3 >=1.9.220,<2.0.0",
 }
 
 if version_info[0] == 2:

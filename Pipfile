@@ -25,6 +25,7 @@ config-yourself = {editable = true,path = ".",extras = ["all"]}
 check-manifest = "<1.0,>=0.35"
 pytest-cov = "*"
 coverage = "*"
+boto3 = ">=1.9.220"
 
 [scripts]
 # check files made available in package match our expectations
